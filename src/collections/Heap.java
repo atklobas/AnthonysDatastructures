@@ -1,9 +1,10 @@
 package collections;
 
 
+//TODO fix heaps handling of storing 'null'
+
 //without modifying this class/package every 'object' in datastore can be guaranteed to be type E
 @SuppressWarnings("unchecked")
-
 //any objects loaded into this need to be able to figure out thier relative order
 public class Heap<E extends Comparable<E>> extends AbstractArrayList<E>{
 	public static final boolean testing=false;
@@ -13,11 +14,11 @@ public class Heap<E extends Comparable<E>> extends AbstractArrayList<E>{
 	 * 
 	 * @param InitialSize how large to make the intial buffer
 	 */
-	public Heap(int maxSize){
-		dataStore = new Object[maxSize];
+	public Heap(int initialSize){
+		super(initialSize);
 	}
 	public Heap(){
-		this(10);
+		super();
 	}
 	
 	void percolateUp(int index){
@@ -81,7 +82,7 @@ public class Heap<E extends Comparable<E>> extends AbstractArrayList<E>{
 
 	@Override
 	public boolean remove(Object toRemove) {
-		int index=this.getIndexOf(toRemove);
+		int index=this.indexOf(toRemove);
 		if(index>=0){
 			this.dataStore[index]=null;
 			this.percolateDown(index);

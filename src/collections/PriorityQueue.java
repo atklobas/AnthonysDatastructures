@@ -18,7 +18,7 @@ public class PriorityQueue<E extends Comparable<E>> extends Heap<E> implements Q
 
 	@Override
 	public E element() {
-		if(this.dataStore[0]==null){
+		if(this.lastItem==0){
 			throw new NoSuchElementException("No elements currently in this collection");
 		}
 		return (E)this.dataStore[0];
@@ -46,7 +46,7 @@ public class PriorityQueue<E extends Comparable<E>> extends Heap<E> implements Q
 
 	@Override
 	public E remove() {
-		if(this.dataStore[0]==null){
+		if(this.lastItem==0){
 			throw new NoSuchElementException("No elements currently in this collection");
 		}
 		

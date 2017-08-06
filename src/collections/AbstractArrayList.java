@@ -8,8 +8,8 @@ import java.util.Iterator;
  * 
  * @author anthony
  * 
- * I noticed that Heap, PriorityQueue, and ArrayList all use a resizing  
- * Object arrays  as a back end and thought: why replicate code? 
+ * I noticed that Heap, PriorityQueue, ArrayStack, and ArrayList all use 
+ * resizing Object arrays  as a back end and thought: why replicate code? 
  * 
  * the internals will be package protected (no modifier) to reduce 
  * verbosity because it's as good as private ouside the package, and
@@ -26,11 +26,20 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 	Object[] dataStore;
 	int lastItem=0;
 
+	/**
+	 * 
+	 * @param InitialSize how large to make the intial buffer
+	 */
+	public AbstractArrayList(int intialSize){
+		dataStore = new Object[intialSize];
+	}
+	public AbstractArrayList(){
+		this(10);
+	}
 	
 	
-	
-	
-	int getIndexOf(Object toGet){
+	//this isn't public because it wont necessarily be meaningful in subclasses
+	int indexOf(Object toGet){
 		int i=0;
 		for(Object o:dataStore){
 			if(o==toGet){
@@ -48,8 +57,10 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 	
 	
 	public void printArray() {
-		System.out.println(Arrays.toString(this.dataStore));
-		
+		//this may seem wasteful, but if a null was added last it would be indistinguishable from having not been added
+		/**/System.out.println(Arrays.toString(Arrays.copyOf(this.dataStore,this.lastItem)));
+		/*/System.out.println(Arrays.toString(this.dataStore));
+		/**/
 	}
 	
 	
@@ -61,7 +72,6 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 
 	@Override
 	public boolean addAll(Collection<? extends E> collection) {
-		// this is currently at best n log(n), but theoretically could be n
 		boolean success=true;
 		for(E toAdd : collection){
 			success=success&add(toAdd);
@@ -92,7 +102,7 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 	public boolean containsAll(Collection<?> collection) {
 		for(Object e : collection){
 			if(!this.contains(e)){
-				return false;
+				return false; //fail fast
 			}
 		}
 		return true;
@@ -114,7 +124,6 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 
 	@Override
 	public boolean removeAll(Collection<?> collection) {
-
 		for(Object toRemove : collection){
 			remove(toRemove);
 		}
@@ -134,12 +143,12 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 
 	@Override
 	public Object[] toArray() {
-		
 		return Arrays.copyOf(this.dataStore, this.lastItem-1);
 	}
 
 	@Override
 	public <T> T[] toArray(T[] dest) {
+		//TODO, test this for off by 1 errors
 		int copylength=dest.length<this.lastItem?dest.length:this.lastItem;
 		System.arraycopy(this.dataStore, 0, dest, 0, copylength);
 		return dest;

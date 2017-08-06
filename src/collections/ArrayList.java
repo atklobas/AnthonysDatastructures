@@ -3,8 +3,9 @@ package collections;
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.RandomAccess;
 
-public class ArrayList<E> extends AbstractArrayList<E> implements List<E>{
+public class ArrayList<E> extends AbstractArrayList<E> implements List<E>, RandomAccess{
 
 	@Override
 	public boolean add(E toAdd) {
@@ -18,7 +19,7 @@ public class ArrayList<E> extends AbstractArrayList<E> implements List<E>{
 
 	@Override
 	public boolean remove(Object toRemove) {
-		int index=this.getIndexOf(toRemove);
+		int index=this.indexOf(toRemove);
 		if(index>=0){
 			this.dataStore[index]=null;
 			return true;
@@ -46,8 +47,7 @@ public class ArrayList<E> extends AbstractArrayList<E> implements List<E>{
 
 	@Override
 	public int indexOf(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return super.indexOf(o);
 	}
 
 	@Override

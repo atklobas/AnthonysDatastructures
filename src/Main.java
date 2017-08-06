@@ -1,13 +1,53 @@
 import java.util.Random;
+import java.util.Stack;
+
+import collections.ArrayStack;
 
 import collections.PriorityQueue;
 
 public class Main {
 	public static final int TEST_ELEMENTS=21;
 	public static void main(String[] args){
-		Main.testHeapSort();
+		
+		/*/Stack<Object> stack =new Stack<Object>();
+		/*/ArrayStack<Object> stack =new ArrayStack<Object>();/**/
+		///stack.push(1);
+
+		//stack.push(2);
+
+		//stack.push(3);
+
+		//stack.push(4);
+		stack.push(5);
+		stack.printArray();
+		stack.remove(5);
+		stack.printArray();
+		while(!stack.isEmpty()){
+			//stack.printArray();
+			//System.out.println(stack.search(5));
+			
+			System.out.println(stack.pop());
+			
+		}
+		
+		
+		//Main.testHeapSort();
 	}
-	/*
+	
+	
+	
+	
+	
+	
+	/* This is not a particularly good heap sort as it's space complexity is O(n) 
+	 * 
+	 * psudocode for heapsort with space complexity O(1) (if done on an array):
+	 * 
+	 * 1:
+	 * move all elements to beginning of array (so there is no null between elements)
+	 * while counting number of elements
+	 * 
+	 * 
 	 *  
 	 */
 	public static void testHeapSort(){
