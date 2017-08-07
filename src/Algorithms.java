@@ -156,6 +156,16 @@ public class Algorithms {
 	 * @param toSort array to be sorted
 	 */
 	public static void bubbleSort(int[] toSort){
+		for(int i=toSort.length-1;i>0;i--){
+			for(int j=0;j<i;j++){
+				if(toSort[j]>toSort[j+1]){
+					int temp=toSort[j];
+					toSort[j]=toSort[j+1];
+					toSort[j+1]=temp;
+				}
+			}
+		}
+		
 		
 	}
 	
@@ -172,7 +182,19 @@ public class Algorithms {
 	 * @param toSort array to be sorted
 	 */
 	public static void selectionSort(int[] toSort){
-		
+		for(int i=0;i<toSort.length;i++){
+			int min=toSort[i];
+			int index=i;
+			for(int j=i;j<toSort.length;j++){
+				if(toSort[j]<min){
+					min=toSort[j];
+					index=j;
+				}
+			}
+			int temp=toSort[i];
+			toSort[i]=toSort[index];
+			toSort[index]=temp;
+		}
 	}
 	
 	/**
@@ -190,7 +212,13 @@ public class Algorithms {
 	 * @param toSort array to be sorted
 	 */
 	public static void insertionSort(int[] toSort){
-		
+		for(int i=1;i<toSort.length;i++){
+			for(int j=i;j>0&&toSort[j]<toSort[j-1];j--){
+				int temp=toSort[j];
+				toSort[j]=toSort[j-1];
+				toSort[j-1]=temp;
+			}
+		}
 	}
 	
 

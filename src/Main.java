@@ -8,12 +8,12 @@ import collections.PriorityQueue;
 
 public class Main {
 	public static final int TEST_ELEMENTS=10;
-	public static final int TEST_ELEMENT__MAX_SIZE=41943040;
+	public static final int TEST_ELEMENT__MAX_SIZE=10;
 	private static Random rand= new Random();
 	public static void main(String[] args){
 		
 		
-		for(int i=0,elements=10;i<23;i++,elements*=2){
+		for(int i=0,elements=10;i<2;i++,elements*=2){
 		
 		int[] testArray=generateRandom(elements);
 		//System.out.println(Arrays.toString(testArray));
@@ -22,12 +22,16 @@ public class Main {
 		long endTime= System.currentTimeMillis();
 		//System.out.println(Arrays.toString(testArray));
 		System.out.println("QS test of "+elements+" elements took "+(endTime-startTime)+" milis");
+		
+		
+		
 		testArray=generateRandom(elements);
-		//System.out.println(Arrays.toString(testArray));
+		
+		System.out.println(Arrays.toString(testArray));
 		startTime= System.currentTimeMillis();
-		Algorithms.mergeSort(testArray);
+		Algorithms.insertionSort(testArray);//(testArray);
 		endTime= System.currentTimeMillis();
-		//System.out.println(Arrays.toString(testArray));
+		System.out.println(Arrays.toString(testArray));
 		System.out.println("MS test of "+elements+" elements took "+(endTime-startTime)+" milis");
 		
 		}
