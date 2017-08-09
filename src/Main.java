@@ -13,6 +13,10 @@ public class Main {
 	private static Random rand= new Random();
 	public static void main(String[] args){
 		
+		for(String s:new java.util.ArrayList<String>()){
+			System.out.println(s);
+		}
+		
 		for(int i=0,elements=10;i<15;i++,elements*=2){
 		
 		int[] testArray=generateRandom(elements);
@@ -20,15 +24,15 @@ public class Main {
 		System.out.println("Testing with: n="+elements);
 		//yes this feels hacky, but lamba methods are nice
 		
-		benchmarkSort(testArray.clone(),"radixSort",(toSort)->Algorithms.radixSort(toSort));
-		benchmarkSort(testArray.clone(),"quickSort",(toSort)->Algorithms.quickSort(toSort));
-		benchmarkSort(testArray.clone(),"stableSort",(toSort)->Algorithms.stableSort(toSort));
-		benchmarkSort(testArray.clone(),"mergeSort",(toSort)->Algorithms.mergeSort(toSort));
-		benchmarkSort(testArray.clone(),"heapSort",(toSort)->Algorithms.heapSort(toSort));
+		benchmarkSort(testArray.clone(),"radixSort",(toSort)->SortAlgorithms.radixSort(toSort));
+		benchmarkSort(testArray.clone(),"quickSort",(toSort)->SortAlgorithms.quickSort(toSort));
+		benchmarkSort(testArray.clone(),"stableSort",(toSort)->SortAlgorithms.stableSort(toSort));
+		benchmarkSort(testArray.clone(),"mergeSort",(toSort)->SortAlgorithms.mergeSort(toSort));
+		benchmarkSort(testArray.clone(),"heapSort",(toSort)->SortAlgorithms.heapSort(toSort));
 		
-		benchmarkSort(testArray.clone(),"bubbleSort",(toSort)->Algorithms.bubbleSort(toSort));
-		benchmarkSort(testArray.clone(),"insertionSort",(toSort)->Algorithms.insertionSort(toSort));
-		benchmarkSort(testArray.clone(),"selectionSort",(toSort)->Algorithms.selectionSort(toSort));
+		benchmarkSort(testArray.clone(),"bubbleSort",(toSort)->SortAlgorithms.bubbleSort(toSort));
+		benchmarkSort(testArray.clone(),"insertionSort",(toSort)->SortAlgorithms.insertionSort(toSort));
+		benchmarkSort(testArray.clone(),"selectionSort",(toSort)->SortAlgorithms.selectionSort(toSort));
 		
 		
 		System.out.println("");

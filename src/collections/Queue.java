@@ -5,7 +5,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Queue<E> implements java.util.Queue<E>{
-	private class Link{
+	//packageProtected
+	class Link{
 		private Link(E item){
 			this.item=item;
 		}
@@ -56,6 +57,7 @@ public class Queue<E> implements java.util.Queue<E>{
 		if(head!=null){
 			E temp=head.item;
 			head=head.next;
+			//this leaves head=null tail=something, always check head to see if list is empty
 			return temp;
 		}
 		return null;
@@ -63,13 +65,11 @@ public class Queue<E> implements java.util.Queue<E>{
 
 	@Override
 	public E remove() {
-		if(this.head==null){
+		E toReturn=poll();
+		if(toReturn==null){
 			throw new NoSuchElementException();
 		}
-		//was tempted to just call poll here
-		E temp=head.item;
-		head=head.next;
-		return temp;
+		return toReturn;
 	}
 	
 	

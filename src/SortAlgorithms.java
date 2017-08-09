@@ -5,7 +5,7 @@ import collections.IntegerQueue;
 import collections.PriorityQueue;
 import collections.Queue;
 
-public class Algorithms {
+public class SortAlgorithms {
 	private static Random rand= new Random();
 	public static int cutoff;
 	/**
