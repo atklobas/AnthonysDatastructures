@@ -8,40 +8,60 @@ import collections.PriorityQueue;
 
 public class Main {
 	public static final int TEST_ELEMENTS=10;
-	public static final int TEST_ELEMENT__MAX_SIZE=10;
+	public static final int TEST_ELEMENT__MAX_SIZE=10024;
+	public static final int RUNS=1;
 	private static Random rand= new Random();
 	public static void main(String[] args){
 		
-		
-		for(int i=0,elements=10;i<2;i++,elements*=2){
+		for(int i=0,elements=10;i<15;i++,elements*=2){
 		
 		int[] testArray=generateRandom(elements);
-		//System.out.println(Arrays.toString(testArray));
-		long startTime= System.currentTimeMillis();
-		Algorithms.quickSort(testArray);
-		long endTime= System.currentTimeMillis();
-		//System.out.println(Arrays.toString(testArray));
-		System.out.println("QS test of "+elements+" elements took "+(endTime-startTime)+" milis");
+		
+		System.out.println("Testing with: n="+elements);
+		//yes this feels hacky, but lamba methods are nice
+		
+		benchmarkSort(testArray.clone(),"radixSort",(toSort)->Algorithms.radixSort(toSort));
+		benchmarkSort(testArray.clone(),"quickSort",(toSort)->Algorithms.quickSort(toSort));
+		benchmarkSort(testArray.clone(),"stableSort",(toSort)->Algorithms.stableSort(toSort));
+		benchmarkSort(testArray.clone(),"mergeSort",(toSort)->Algorithms.mergeSort(toSort));
+		benchmarkSort(testArray.clone(),"heapSort",(toSort)->Algorithms.heapSort(toSort));
+		
+		benchmarkSort(testArray.clone(),"bubbleSort",(toSort)->Algorithms.bubbleSort(toSort));
+		benchmarkSort(testArray.clone(),"insertionSort",(toSort)->Algorithms.insertionSort(toSort));
+		benchmarkSort(testArray.clone(),"selectionSort",(toSort)->Algorithms.selectionSort(toSort));
 		
 		
+		System.out.println("");
 		
-		testArray=generateRandom(elements);
-		
-		System.out.println(Arrays.toString(testArray));
-		startTime= System.currentTimeMillis();
-		Algorithms.insertionSort(testArray);//(testArray);
-		endTime= System.currentTimeMillis();
-		System.out.println(Arrays.toString(testArray));
-		System.out.println("MS test of "+elements+" elements took "+(endTime-startTime)+" milis");
 		
 		}
 		
 	}
 	
+	
+	private interface Sort{
+		public void sort(int[] toSort);
+	}
+	
+	public static void benchmarkSort(int[] testArray,String name, Sort algo){
+		
+		long startTime= System.currentTimeMillis();
+		for(int i=0;i<RUNS;i++){
+			algo.sort(testArray);
+		}
+		long endTime= System.currentTimeMillis();
+		//System.out.println(Arrays.toString(testArray));
+		System.out.println(name+ " , "+(endTime-startTime)+"");
+	}
+	
+	
+	
+	
+	
 	public static int[] generateRandom(int length){
 		int[] returnArray=new int[length];
 		for(int i=0;i<length;i++){
-			returnArray[i]=rand.nextInt(TEST_ELEMENT__MAX_SIZE);
+			returnArray[i]=rand.nextInt(TEST_ELEMENT__MAX_SIZE)-TEST_ELEMENT__MAX_SIZE/2;
 		}
 		return returnArray;
 	}
