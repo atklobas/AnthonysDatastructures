@@ -57,4 +57,10 @@ public class ArrayStack<E> extends AbstractArrayList<E>{
 		return -1;
 	}
 
+	@Override
+	public E remove(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

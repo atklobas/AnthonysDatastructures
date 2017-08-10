@@ -49,8 +49,12 @@ public abstract class AbstractArrayList<E> extends AbstractCollection<E>implemen
 			i++;
 		}
 		return -1;
-		
 	}
+	void expandArray(){
+		//none of this grow by 1.5, lets do 2 instead
+		this.dataStore=Arrays.copyOf(this.dataStore, this.dataStore.length<<1);
+	}
+	
 	@SuppressWarnings("unchecked")
 	E remove(int index) {
 		E temp=(E)this.dataStore[index];
@@ -58,11 +62,6 @@ public abstract class AbstractArrayList<E> extends AbstractCollection<E>implemen
 		this.dataStore[this.lastItem-1]=null;
 		this.lastItem--;
 		return temp;
-	}
-	
-	void expandArray(){
-		//none of this grow by 1.5, lets do 2 instead
-		this.dataStore=Arrays.copyOf(this.dataStore, this.dataStore.length<<1);
 	}
 	
 	
@@ -99,8 +98,28 @@ public abstract class AbstractArrayList<E> extends AbstractCollection<E>implemen
 
 	@Override
 	public Iterator<E> iterator() {
-		//TODO later
-		return null;
+		return new ArrayIterator();
+	}
+	private class ArrayIterator implements Iterator<E>{
+		private int index=-1;
+		@Override
+		public boolean hasNext() {
+			return index+1<size();
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public E next() {
+			index++;
+			return (E) dataStore[index];
+		}
+		
+		@Override
+		public void remove(){
+			AbstractArrayList.this.remove(index);
+			index--;
+		}
+		
 	}
 	
 

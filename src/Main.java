@@ -1,11 +1,13 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Stack;
 
 import collections.ArrayStack;
 import collections.Deque;
+import collections.Heap;
 import collections.PriorityQueue;
 import collections.Queue;
 
@@ -16,10 +18,49 @@ public class Main {
 	private static Random rand= new Random();
 	public static void main(String[] args){
 		
-		testQueue();
+		Stack<Integer> heap=new Stack<Integer>();
+		testCollection(heap);
 		
 	}
-	
+	public static void testCollection(Collection<Integer> toTest){
+		
+		System.out.println("testing add and remove");
+		for(int i=0;i<5;i++){
+			toTest.add(i);
+			System.out.println(toTest);
+		}
+		
+		Iterator<Integer> itr=toTest.iterator();
+		while(itr.hasNext()){
+			int val=itr.next();
+			System.out.print(val+" ");
+			if(val==3){
+				System.out.print("removing 3 ");
+				itr.remove();
+			}
+		}
+		System.out.println();
+		System.out.println(toTest);
+		System.out.println("removing 1");
+		toTest.remove(1);
+		System.out.println(toTest);
+		System.out.println("testing clear()");
+		toTest.clear();
+		
+		System.out.println(toTest);
+		System.out.println("testing addall");
+		toTest.addAll(Arrays.asList(new Integer[]{1,2,3,4,5,4,3,2,1,2,3,4,3,2,1}));
+		System.out.println(toTest);
+		System.out.println("testing retainAll");
+		toTest.retainAll(Arrays.asList(new Integer[]{2,3,4,5}));
+		System.out.println(toTest);
+		toTest.retainAll(Arrays.asList(new Integer[]{1,2,3}));
+		System.out.println(toTest);
+		System.out.println("emptying collection");
+		toTest.removeAll(toTest);
+		System.out.println(toTest);
+
+	}
 	public static void testSorts(){
 		
 		for(String s:new java.util.ArrayList<String>()){
@@ -54,6 +95,7 @@ public class Main {
 	private static void testQueue(){
 		Queue<Integer> q=new Queue<Integer>();
 		//Deque<Integer> q=new Deque<Integer>();
+		
 		System.out.println("testing add and remove");
 		for(int i=0;i<5;i++){
 			q.add(i);

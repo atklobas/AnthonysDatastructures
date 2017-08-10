@@ -19,12 +19,7 @@ public class ArrayList<E> extends AbstractArrayList<E> implements List<E>, Rando
 
 	@Override
 	public boolean remove(Object toRemove) {
-		int index=this.indexOf(toRemove);
-		if(index>=0){
-			this.dataStore[index]=null;
-			return true;
-		}
-		return false;
+		return this.remove(this.indexOf(toRemove))!=null;
 	}
 
 	@Override
@@ -68,9 +63,8 @@ public class ArrayList<E> extends AbstractArrayList<E> implements List<E>, Rando
 		return null;
 	}
 
-	@Override
-	public E remove(int index) {
-		return super.remove(index);
+	public E remove(int index){
+		return this.remove(index);
 	}
 
 	@Override

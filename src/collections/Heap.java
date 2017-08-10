@@ -4,7 +4,6 @@ package collections;
 //TODO fix heaps handling of storing 'null'
 
 //without modifying this class/package every 'object' in datastore can be guaranteed to be type E
-@SuppressWarnings("unchecked")
 //any objects loaded into this need to be able to figure out thier relative order
 public class Heap<E extends Comparable<E>> extends AbstractArrayList<E>{
 	public static final boolean testing=false;
@@ -20,8 +19,8 @@ public class Heap<E extends Comparable<E>> extends AbstractArrayList<E>{
 	public Heap(){
 		super();
 	}
-	
-	void percolateUp(int index){
+	@SuppressWarnings("unchecked")
+	private void percolateUp(int index){
 		
 		int parentIndex=(index-1)/2;
 		
@@ -38,7 +37,8 @@ public class Heap<E extends Comparable<E>> extends AbstractArrayList<E>{
 		}
 		
 	}
-	void percolateDown(int index){
+	@SuppressWarnings("unchecked")
+	private void percolateDown(int index){
 		//don't want to deal with null, so swap null with last item
 		if(this.dataStore[index]==null){
 			this.lastItem--;
@@ -79,16 +79,18 @@ public class Heap<E extends Comparable<E>> extends AbstractArrayList<E>{
 		this.lastItem++;
 		return true;
 	}
-
+	@Override
+	@SuppressWarnings("unchecked")
+	E remove(int index) {
+		E toReturn=(E) this.dataStore[index];
+		this.dataStore[index]=null;
+		this.percolateDown(index);
+		return toReturn;
+	}
+	
 	@Override
 	public boolean remove(Object toRemove) {
-		int index=this.indexOf(toRemove);
-		if(index>=0){
-			this.dataStore[index]=null;
-			this.percolateDown(index);
-			return true;
-		}
-		return false;
+		return this.remove(this.indexOf(toRemove))!=null;
 	}
 
 
