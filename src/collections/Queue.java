@@ -1,34 +1,39 @@
 package collections;
 
-import java.util.Collection;
+import java.util.AbstractCollection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Queue<E> implements java.util.Queue<E>{
+
+public class Queue<E> extends AbstractCollection<E> implements java.util.Queue<E>{
 	//packageProtected
 	class Link{
 		private Link(E item){
 			this.item=item;
 		}
 		private Link next;
+		//the interview question, remove current item from single linked list
+		//the "solution" doesn't work if it's the last element or item is final :P
 		private final E item;
 		
 	}
 	private Link head=null;
 	private Link tail=null;
-	
+	private int count=0;
 	
 	//queue methods
 
 	@Override
 	public boolean add(E item) {
+		
 		if(head==null){
 			head=tail=new Link(item);
 		}else{
 			tail.next=new Link(item);
 			tail=tail.next;
+			
 		}
-		
+		count++;
 		return true;
 	}
 	@Override
@@ -57,6 +62,7 @@ public class Queue<E> implements java.util.Queue<E>{
 		if(head!=null){
 			E temp=head.item;
 			head=head.next;
+			count--;
 			//this leaves head=null tail=something, always check head to see if list is empty
 			return temp;
 		}
@@ -71,86 +77,81 @@ public class Queue<E> implements java.util.Queue<E>{
 		}
 		return toReturn;
 	}
-	
-	
-	
-	
-	
-	//collections methods
-	
-
-	@Override
-	public boolean addAll(Collection<? extends E> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean containsAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return this.head==null;
-	}
-
 	@Override
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new QueueIterator(head);
 	}
+	private class QueueIterator implements Iterator<E>{
+		Link prev;
+		Link current;
+		public QueueIterator(Link start){
+			prev=new Link(null);
+			current= new Link(null);
+			prev.next=current;
+			current.next=start;
+		}
+		public boolean hasNext() {
+			return prev.next!=null&&current.next!=null;
+		}
 
+		@Override
+		public E next() {
+			if(prev.next!=current.next){//check for removal
+				prev=current;
+			}
+			current=current.next;
+			return current.item;
+		}
+		@Override
+		public void remove(){
+			if(head==tail){
+				head=tail=null;
+				count=0;
+				return;//dirty, i know
+			}else if(prev.next==head){
+				Queue.this.remove();
+				current.next=head;
+				prev.next=current;
+				
+			}else{
+				if(prev.next==tail){
+					tail=prev;
+				}
+				prev.next=prev.next.next;
+				count--;
+			}
+			
+
+			
+		}
+	}
 	@Override
-	public boolean remove(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+	public void clear() {
+		head=tail=null;
+		count=0;
+		
 	}
-
-	@Override
-	public boolean removeAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean retainAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
+	
+	
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return count;
 	}
-
-	@Override
-	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <T> T[] toArray(T[] a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
+	
+	public String toString(){
+		String toRet="<";
+		for(E element:this){
+			toRet+=element+", ";
+		}
+		if(toRet.length()>1){
+			toRet=toRet.substring(0, toRet.length()-2);
+		}
+		toRet+=">";
+		return toRet;
+		
+	}
 	
 	
 }

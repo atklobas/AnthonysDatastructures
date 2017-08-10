@@ -1,5 +1,6 @@
 package collections;
 
+import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -16,7 +17,7 @@ import java.util.Iterator;
  * I (or whatever poor soul chose to use this) should have complete
  * understanding of the implementation and not do things that break it
  */
-public abstract class AbstractArrayList<E> implements Collection<E> {
+public abstract class AbstractArrayList<E> extends AbstractCollection<E>implements Collection<E> {
 	/*
 	 * I know using type Object rather than E is potentially bad
 	 * but java wont instantiate a type E array, even openjdk does it like this
@@ -50,6 +51,15 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 		return -1;
 		
 	}
+	@SuppressWarnings("unchecked")
+	E remove(int index) {
+		E temp=(E)this.dataStore[index];
+		System.arraycopy(this.dataStore, this.lastItem-index+1, this.dataStore, this.lastItem-index, index-1);
+		this.dataStore[this.lastItem-1]=null;
+		this.lastItem--;
+		return temp;
+	}
+	
 	void expandArray(){
 		//none of this grow by 1.5, lets do 2 instead
 		this.dataStore=Arrays.copyOf(this.dataStore, this.dataStore.length<<1);
@@ -57,26 +67,13 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 	
 	
 	public void printArray() {
-		//this may seem wasteful, but if a null was added last it would be indistinguishable from having not been added
-		/**/System.out.println(Arrays.toString(Arrays.copyOf(this.dataStore,this.lastItem)));
-		/*/System.out.println(Arrays.toString(this.dataStore));
-		/**/
+		System.out.println(this.toString());
 	}
-	
-	
-	
-	
-	
-	//#################### beyond here are things needed to Implement Collection ####################
-	 
-
-	@Override
-	public boolean addAll(Collection<? extends E> collection) {
-		boolean success=true;
-		for(E toAdd : collection){
-			success=success&add(toAdd);
-		}
-		return success;
+	public String toString(){
+		//this may seem wasteful, but if a null was added last it would be indistinguishable from having not been added
+		/**/return Arrays.toString(Arrays.copyOf(this.dataStore,this.lastItem));
+		/*/return Arrays.toString(this.dataStore);
+		/**/
 	}
 
 	@Override
@@ -87,7 +84,8 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 		this.lastItem=0;
 		
 	}
-
+	
+	
 	@Override
 	public boolean contains(Object toCheck) {
 		for(int i=0;i<this.lastItem;i++){
@@ -97,21 +95,7 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 		}
 		return false;
 	}
-
-	@Override
-	public boolean containsAll(Collection<?> collection) {
-		for(Object e : collection){
-			if(!this.contains(e)){
-				return false; //fail fast
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return this.lastItem==0;
-	}
+	
 
 	@Override
 	public Iterator<E> iterator() {
@@ -119,22 +103,6 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 		return null;
 	}
 	
-
-	
-
-	@Override
-	public boolean removeAll(Collection<?> collection) {
-		for(Object toRemove : collection){
-			remove(toRemove);
-		}
-		return false;
-	}
-
-	@Override
-	public boolean retainAll(Collection<?> arg0) {
-		// TODO meh
-		return false;
-	}
 
 	@Override
 	public int size() {
@@ -144,14 +112,6 @@ public abstract class AbstractArrayList<E> implements Collection<E> {
 	@Override
 	public Object[] toArray() {
 		return Arrays.copyOf(this.dataStore, this.lastItem-1);
-	}
-
-	@Override
-	public <T> T[] toArray(T[] dest) {
-		//TODO, test this for off by 1 errors
-		int copylength=dest.length<this.lastItem?dest.length:this.lastItem;
-		System.arraycopy(this.dataStore, 0, dest, 0, copylength);
-		return dest;
 	}
 
 }

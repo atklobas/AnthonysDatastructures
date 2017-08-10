@@ -1,12 +1,12 @@
 package collections;
 
-import java.lang.reflect.Array;
+import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
-public class Deque<E> implements java.util.Deque<E>{
+public class Deque<E> extends AbstractCollection<E> implements java.util.Deque<E>{
 	private class Link{
 		private Link(E item){
 			this.item=item;
@@ -191,14 +191,6 @@ public class Deque<E> implements java.util.Deque<E>{
 	}
 
 	
-	
-	
-
-	
-	
-	
-	
-	
 	@Override
 	public boolean addAll(Collection<? extends E> collection) {
 		for(E element:collection){
@@ -212,72 +204,6 @@ public class Deque<E> implements java.util.Deque<E>{
 		head=tail=null;
 		count=0;
 		
-	}
-
-	@Override
-	public boolean containsAll(Collection<?> arg0) {
-		for(Object o:arg0){
-			if(!this.contains(o)){
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return this.head==null;
-	}
-
-	@Override
-	public boolean removeAll(Collection<?> arg0) {
-		boolean changed=false;
-		for(Object o:arg0){
-			changed=changed|this.removeAll(o);
-		}
-		return changed;
-	}
-
-	@Override
-	public boolean retainAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Object[] toArray() {
-		return toArray(new Object[count]);
-	}
-
-	@Override
-	public <T> T[] toArray(T[] buffer) {
-		if(buffer.length<this.count){
-			buffer=(T[])Array.newInstance(buffer.getClass().getComponentType(), this.count);
-		}
-		Object[] res=buffer;
-		Link current=this.head;
-		for(int i=0;i<this.count;i++){
-			res[i]=current.item;
-			current=current.next;
-		}
-		if(buffer.length>this.count){
-			res[count]=null;
-		}
-		
-		return null;
-	}
-
-
-
-
-	@Override
-	public boolean contains(Object o) {
-		for(E e: this){
-			if(e==o){
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override
@@ -296,14 +222,13 @@ public class Deque<E> implements java.util.Deque<E>{
 		}
 	}
 
-
-
 	@Override
 	public Iterator<E> iterator() {
 		return new DequeIterator(head);
 	}
 	private class DequeIterator implements Iterator<E>{
 		Link current;
+		Link last=null;
 		public DequeIterator(Link start){
 			current=start;
 		}
@@ -313,50 +238,27 @@ public class Deque<E> implements java.util.Deque<E>{
 
 		@Override
 		public E next() {
-			E temp=current.item;
+			last=current;
 			current=current.next;
-			return temp;
+			return last.item;
 		}
-	}
-
-
-	
-
-
-	@Override
-	public boolean remove(Object o) {
-		Link current=this.head;
-		for(int i=0;i<this.count;i++){
-			if(o==current.item){
-				if(current.last!=null){
-					current.last.next=current.next;
-				}
-				if(current.next!=null){
-					current.next.last=current.last;
-				}
-				return true;
+		@Override
+		public void remove(){
+			if(last.last!=null){
+				last.last.next=last.next;
+			}else{
+				Deque.this.head=last.next;
 			}
-			current=current.next;
-		}
-		return false;
-	}
-	public boolean removeAll(Object o) {
-		boolean changed=false;
-		Link current=this.head;
-		for(int i=0;i<this.count;i++){
-			if(o==current.item){
-				if(current.last!=null){
-					current.last.next=current.next;
-				}
-				if(current.next!=null){
-					current.next.last=current.last;
-				}
-				changed=true;
+			if(last.next!=null){
+				last.next.last=last.last;
+			}else{
+				Deque.this.tail=last.last;
 			}
-			current=current.next;
+			count--;
 		}
-		return changed;
 	}
+
+
 
 
 	@Override
@@ -399,5 +301,31 @@ public class Deque<E> implements java.util.Deque<E>{
 		return toRet;
 		
 	}
+
+	 public boolean retainAll(Collection<?> c) {
+		         boolean modified = false;
+		         Iterator<E> e = iterator();
+		         while (e.hasNext()) {
+		             if (!c.contains(e.next())) {
+		                 e.remove();
+		                 modified = true;
+		             }
+		         }
+		         return modified;
+		   }
+	
+	 public boolean contains(Object o) {
+		          Iterator<E> e = iterator();
+		         if (o==null) {
+		             while (e.hasNext())
+		                 if (e.next()==null)
+		                     return true;
+		         } else {
+		             while (e.hasNext())
+		                 if (o.equals(e.next()))
+		                     return true;
+		         }
+		         return false;
+		     }
 
 }

@@ -25,12 +25,15 @@ public class ArrayStack<E> extends AbstractArrayList<E>{
 	public boolean empty(){
 		return this.isEmpty();
 	}
+	@SuppressWarnings("unchecked")
 	public E peek(){
 		if(!empty()){
+			
 			return (E)this.dataStore[this.lastItem];
 		}
 		throw new EmptyStackException();
 	}
+	@SuppressWarnings("unchecked")
 	public E pop(){
 		if(!empty()){
 			this.lastItem--;

@@ -70,8 +70,7 @@ public class ArrayList<E> extends AbstractArrayList<E> implements List<E>, Rando
 
 	@Override
 	public E remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return super.remove(index);
 	}
 
 	@Override
