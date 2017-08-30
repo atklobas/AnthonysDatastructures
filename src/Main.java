@@ -1,15 +1,10 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Stack;
 
-import collections.ArrayStack;
-import collections.Deque;
-import collections.Heap;
-import collections.PriorityQueue;
-import collections.Queue;
+import collections.*;
 
 public class Main {
 	public static final int TEST_ELEMENTS=10;
@@ -17,10 +12,72 @@ public class Main {
 	public static final int RUNS=1;
 	private static Random rand= new Random();
 	public static void main(String[] args){
+		System.out.println("_________________________________________________");
 		
-		Stack<Integer> heap=new Stack<Integer>();
-		testCollection(heap);
+		BalancedBinarySearchTree<Integer> tree=new BalancedBinarySearchTree<Integer>();
+		AVLtest(tree);
+		AVLtest(tree);
+		AVLtest(tree);
+		AVLtest(tree);
+		System.out.println("_________________________________________________");
 		
+		System.out.println("_________________________________________________");
+		tree.printTreeView();
+		System.exit(0);
+		tree.add(4);
+		System.out.println("______________________1___________________________");
+		tree.printTreeView();
+		tree.add(7);
+		System.out.println("_______________________2__________________________");
+		tree.printTreeView();
+		tree.add(4);
+		System.out.println("______________________3___________________________");
+		tree.printTreeView();
+		tree.add(6);
+		System.out.println("_______________________4__________________________");
+		tree.printTreeView();
+		tree.add(3);
+		tree.add(8);
+		tree.add(4);
+		tree.add(5);
+		
+		
+		
+		
+		tree.printTree();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println("_______________________5__________________________");
+		tree.printTreeView();
+		System.out.println("_______________________6__________________________");
+		tree.remove(4);
+		tree.printTreeView();
+		tree.remove(5);
+		System.out.println("_______________________7__________________________");
+		tree.printTreeView();
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//new BinarySearchTree<Integer>();
+		//Stack<Integer> heap=new Stack<Integer>();
+		//testCollection(heap);
+		
+	}
+	public static void AVLtest(BalancedBinarySearchTree<Integer> tree){
+		for(int i=0;i<100;i++){
+			tree.add(rand.nextInt(200));
+			if(!tree.isAVL())
+			System.out.println(tree.isAVL());
+		}
+		for(int i=0;i<100;i++){
+			tree.remove(rand.nextInt(200));
+			if(!tree.isAVL())
+			System.out.println(tree.isAVL());
+		}
 	}
 	public static void testCollection(Collection<Integer> toTest){
 		
