@@ -58,9 +58,12 @@ public abstract class AbstractArrayList<E> extends AbstractCollection<E>implemen
 	@SuppressWarnings("unchecked")
 	E remove(int index) {
 		E temp=(E)this.dataStore[index];
-		System.arraycopy(this.dataStore, this.lastItem-index+1, this.dataStore, this.lastItem-index, index-1);
-		this.dataStore[this.lastItem-1]=null;
+		if(index!=this.lastItem-1){
+			System.arraycopy(this.dataStore, index+1, this.dataStore, index, this.lastItem-index);
+		}
 		this.lastItem--;
+		this.dataStore[this.lastItem]=null;
+		
 		return temp;
 	}
 	
@@ -130,7 +133,7 @@ public abstract class AbstractArrayList<E> extends AbstractCollection<E>implemen
 
 	@Override
 	public Object[] toArray() {
-		return Arrays.copyOf(this.dataStore, this.lastItem-1);
+		return Arrays.copyOf(this.dataStore, this.lastItem);
 	}
 
 }

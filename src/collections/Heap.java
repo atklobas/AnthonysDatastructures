@@ -1,7 +1,7 @@
 package collections;
 
 
-//TODO fix heaps handling of storing 'null'
+//don't use null with heaps, that's...undefined
 
 //without modifying this class/package every 'object' in datastore can be guaranteed to be type E
 //any objects loaded into this need to be able to figure out thier relative order

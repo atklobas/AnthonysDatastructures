@@ -16,9 +16,7 @@ public class ArrayStack<E> extends AbstractArrayList<E>{
 		if(index==-1){
 			return false;
 		}
-		System.arraycopy(this.dataStore, this.lastItem-index+1, this.dataStore, this.lastItem-index, index-1);
-		this.dataStore[this.lastItem-1]=null;
-		this.lastItem--;
+		super.remove(this.lastItem-index);
 		return true;
 	}
 	
@@ -59,8 +57,7 @@ public class ArrayStack<E> extends AbstractArrayList<E>{
 
 	@Override
 	public E remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return super.remove(this.lastItem-index);
 	}
 
 }

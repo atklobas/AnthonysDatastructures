@@ -2,7 +2,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
+import java.util.RandomAccess;
 
 import collections.*;
 
@@ -12,6 +15,64 @@ public class Main {
 	public static final int RUNS=1;
 	private static Random rand= new Random();
 	public static void main(String[] args){
+		testStack();
+		//testArrayList();
+		//testCollection(new ArrayList<Integer>());
+		
+	}
+	public static void testArrayList(){
+		ArrayList<String> list =new ArrayList<String>(8);
+		list.add("the");
+		list.add("quick");
+		list.add("brown");
+		list.add("fox");
+		list.add("jumps");
+		list.add("over");
+		list.add("the");
+		list.add("lazy");
+		list.add("dog");
+		list.printArray();
+		
+		list.remove("brown");
+		list.printArray();
+		list.add(2, "red");
+		list.printArray();
+		ListIterator<String> itr = list.listIterator();
+		
+		while(itr.hasNext()){
+			String temp=itr.next();
+					System.out.println(list.size()+" "+temp);
+					if(temp=="red"){
+						itr.remove();
+					}
+					if(temp=="lazy"){
+						itr.add("sleeping");
+					}
+			
+		}
+		list.printArray();
+		while(itr.hasPrevious()){
+			String temp=itr.previous();
+					System.out.println(list.size()+" "+temp);
+					if(temp=="lazy"){
+						itr.remove();
+					}
+					if(temp=="fox"){
+						itr.set("cat");
+					}
+		}
+		list.printArray();
+		Collections.shuffle(list);
+		list.printArray();
+		for(int i=0;i<15;i++){
+			String s=list.get(list.size()-1);
+			list.remove(list.size()-1);
+			list.add(list.size(), s);
+			list.add(list.size(), s);
+			list.printArray();
+		}
+	}
+	public static void testTree(){
 		System.out.println("_________________________________________________");
 		
 		BalancedBinarySearchTree<Integer> tree=new BalancedBinarySearchTree<Integer>();
@@ -23,7 +84,7 @@ public class Main {
 		
 		System.out.println("_________________________________________________");
 		tree.printTreeView();
-		System.exit(0);
+		
 		tree.add(4);
 		System.out.println("______________________1___________________________");
 		tree.printTreeView();
@@ -41,9 +102,6 @@ public class Main {
 		tree.add(4);
 		tree.add(5);
 		
-		
-		
-		
 		tree.printTree();
 		System.out.println();
 		System.out.println();
@@ -56,16 +114,6 @@ public class Main {
 		tree.remove(5);
 		System.out.println("_______________________7__________________________");
 		tree.printTreeView();
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//new BinarySearchTree<Integer>();
-		//Stack<Integer> heap=new Stack<Integer>();
-		//testCollection(heap);
-		
 	}
 	public static void AVLtest(BalancedBinarySearchTree<Integer> tree){
 		for(int i=0;i<100;i++){
@@ -92,7 +140,7 @@ public class Main {
 			int val=itr.next();
 			System.out.print(val+" ");
 			if(val==3){
-				System.out.print("removing 3 ");
+				System.out.print("(removing 3) ");
 				itr.remove();
 			}
 		}
@@ -225,23 +273,27 @@ public class Main {
 	public static void testStack(){
 
 		/*/Stack<Object> stack =new Stack<Object>();
-		/*/ArrayStack<Object> stack =new ArrayStack<Object>();/**/
-		///stack.push(1);
+		/*/
+		ArrayStack<String> stack =new ArrayStack<String>();/**/
+		stack.push("one");
 
-		//stack.push(2);
+		stack.push("two");
 
-		//stack.push(3);
+		stack.push("3");
 
-		//stack.push(4);
-		stack.push(5);
+		stack.push("4");
+		stack.push("5");
 		stack.printArray();
-		stack.remove(5);
+		stack.remove("5");
+		stack.printArray();
+		System.out.println("\"two\" is "+stack.search("two")+" deep in stack, removing it");
+		stack.remove(stack.search("two"));
 		stack.printArray();
 		while(!stack.isEmpty()){
-			//stack.printArray();
-			//System.out.println(stack.search(5));
 			
-			System.out.println(stack.pop());
+			System.out.println("\"3\" is "+stack.search("3")+" deep");
+			stack.printArray();
+			System.out.println("popped "+stack.pop());
 			
 		}
 		
@@ -298,4 +350,5 @@ public class Main {
 		}
 		System.out.println();
 	}
+
 }
