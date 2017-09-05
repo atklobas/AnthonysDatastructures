@@ -15,10 +15,11 @@ import graphs.Graph;
 
 public class ImageViewer {
 	private BufferedImage image;;JFrame frame;
+	JLabel label;
 	public ImageViewer() throws IOException{
 		frame=new JFrame("image viewer"); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-		image=ImageIO.read(new File("maze.png"));
+		image=ImageIO.read(new File("cup.png"));
 		
 		//this little sections is to force a colorSpace,
 		BufferedImage temp=new BufferedImage(image.getWidth(),image.getHeight(),BufferedImage.TYPE_INT_RGB);
@@ -28,17 +29,22 @@ public class ImageViewer {
 		
 		ImageIcon icon=new ImageIcon();
 		icon.setImage(image);
-		JLabel label=new JLabel(icon);
+		label=new JLabel(icon);
+		
 		frame.add(label);
 		frame.pack();
 		frame.setVisible(true);
 	}
+	
+	
+	
 	int counter=0;
 	public void refresh(){
 	
 		counter++;
 		if(counter%10==0){
 		frame.repaint();
+
 		
 		try {
 			Thread.sleep(1);
@@ -57,7 +63,7 @@ public class ImageViewer {
 		ImageViewer view =new ImageViewer();
 		Graph g=new rasterGraph(view.getImageRaster());
 		graphs.GraphAlgorithms.addObserver(()->view.refresh());
-		graphs.GraphAlgorithms.Astar(g);
+		graphs.GraphAlgorithms.breadthFirstSearch(g);
 		view.frame.repaint();
 	}
 

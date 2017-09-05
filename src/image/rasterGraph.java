@@ -134,13 +134,13 @@ public class rasterGraph implements graphs.Graph{
 	}
 	@Override
 	public GraphNode getStart() {
-		return createNode(153,1);
+		return createNode(10,10);
 	}
 
 	@Override
 	public GraphNode getEnd() {
-		return createNode(172,320);
-		//return createNode(168,320);
+		//return createNode(172,320);
+		return createNode(320,320);
 	}
 	public int getHeuristic(GraphNode start, GraphNode end){
 		if(start instanceof Node&&end instanceof Node){

@@ -32,7 +32,7 @@ public class GraphAlgorithms {
 			
 			List<Connection> connected=current.getConnections();
 			current.setScanned(true);
-		
+			observe();
 			for(Connection c:connected){
 				if(!c.getNode().isScanned()){
 					toExplore.add(c.getNode());
@@ -105,12 +105,12 @@ public class GraphAlgorithms {
 			List<Connection> connected=current.node.getConnections();
 			
 			current.node.setScanned(true);
-
+			observe();
 			
 			for(Connection c:connected){
 				int cost=c.getCost()+current.cost;
 				int heur=(int)(g.getHeuristic(c.getNode(), g.getEnd()));
-				System.out.println((cost+heur)+"="+cost+"+"+heur+":"+c.getNode());
+				
 				UpdatableNode existing=explored.get(new UpdatableNode(c.getNode(),0));
 				if(existing!=null){				
 					if(existing.cost>cost){
@@ -186,9 +186,43 @@ public class GraphAlgorithms {
 			
 			for(Connection c:connected){
 				int cost=c.getCost()+current.cost;
-				int heur=(int)(g.getHeuristic(c.getNode(), g.getEnd()));
 				if(!c.getNode().isScanned()){
 					PathNode node=new PathNode(c.getNode(),cost);
+					toExplore.add(node);
+					c.getNode().setPrevious(current.node);
+					c.getNode().setScanned(true);
+					if(c.getNode().equals(g.getEnd())){
+						GraphNode back=c.getNode();
+						while(back!=null){
+							back.setOnPath(true);
+							back=back.getPrevious();
+							for(Observer o:OBSERVERS){
+								o.observe();
+							}
+						}
+						return;
+					}
+				}
+			}
+		}
+		System.out.println("no path found");
+	}
+
+	public static void BestFirst(Graph g){
+		PriorityQueue<PathNode> toExplore=new PriorityQueue<PathNode>();
+		toExplore.add(new PathNode(g.getStart(),0));
+		
+		while(!toExplore.isEmpty()){
+			PathNode current=(PathNode)toExplore.poll();
+			List<Connection> connected=current.node.getConnections();
+			
+			current.node.setScanned(true);
+			observe();
+			
+			for(Connection c:connected){
+				int heur=(int)(g.getHeuristic(c.getNode(), g.getEnd()));
+				if(!c.getNode().isScanned()){
+					PathNode node=new PathNode(c.getNode(),heur);
 					toExplore.add(node);
 					c.getNode().setPrevious(current.node);
 					c.getNode().setScanned(true);
