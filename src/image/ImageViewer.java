@@ -19,7 +19,7 @@ public class ImageViewer {
 	public ImageViewer() throws IOException{
 		frame=new JFrame("image viewer"); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
-		image=ImageIO.read(new File("cup.png"));
+		image=ImageIO.read(new File("natalie.bmp"));
 		
 		//this little sections is to force a colorSpace,
 		BufferedImage temp=new BufferedImage(image.getWidth(),image.getHeight(),BufferedImage.TYPE_INT_RGB);
@@ -59,6 +59,8 @@ public class ImageViewer {
 	public Raster getImageRaster(){
 		return image.getRaster();
 	}
+	
+	
 	public static void main(String[] args) throws IOException{
 		ImageViewer view =new ImageViewer();
 		Graph g=new rasterGraph(view.getImageRaster());

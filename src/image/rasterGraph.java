@@ -134,20 +134,20 @@ public class rasterGraph implements graphs.Graph{
 	}
 	@Override
 	public GraphNode getStart() {
-		return createNode(10,10);
+		return createNode(577,1);
 	}
 
 	@Override
 	public GraphNode getEnd() {
 		//return createNode(172,320);
-		return createNode(320,320);
+		return createNode(29,400);
 	}
 	public int getHeuristic(GraphNode start, GraphNode end){
 		if(start instanceof Node&&end instanceof Node){
 			Node s=(Node)start;
 			Node e=(Node)end;
-			int deltaX=Math.abs(s.x-e.x)*100;
-			int deltaY=Math.abs(s.y-e.y)*100;
+			double deltaX=Math.abs(s.x-e.x)*100;
+			double deltaY=Math.abs(s.y-e.y)*100;
 			return (int)Math.sqrt(deltaX*deltaX+deltaY*deltaY);
 		}
 		return 0;
