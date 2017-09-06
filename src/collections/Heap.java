@@ -20,7 +20,7 @@ public class Heap<E extends Comparable<E>> extends AbstractArrayList<E>{
 		super();
 	}
 	@SuppressWarnings("unchecked")
-	private void percolateUp(int index){
+	void percolateUp(int index){
 		
 		int parentIndex=(index-1)/2;
 		
@@ -38,7 +38,7 @@ public class Heap<E extends Comparable<E>> extends AbstractArrayList<E>{
 		
 	}
 	@SuppressWarnings("unchecked")
-	private void percolateDown(int index){
+	void percolateDown(int index){
 		//don't want to deal with null, so swap null with last item
 		if(this.dataStore[index]==null){
 			this.lastItem--;
